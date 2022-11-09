@@ -1,8 +1,11 @@
 const express = require("express"); // express 패키지 import
-
 const app = express();
 
-// API Key를 별도 관리 : dot(.)env 활용, .env 라는 파일에 key를 보관하고, dotenv가 .env파일을 활용해서, process.env객체에 포함시킴
+/*
+API Key를 별도 관리 : dot(.)env 활용, 
+.env 라는 파일에 key를 보관하고, 
+dotenv가 .env파일을 활용해서 process.env객체에 포함시킴
+*/
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -18,31 +21,30 @@ app.use(express.static("public"));
 // express의 json 미들웨어 활용
 app.use(express.json());
 
-// 콘솔에 출력
-// console.log(`현재 파일명 : ${__filename}`);
-// console.log(`index.html의 파일 경로: ${__dirname}`);
 
-// root url : localhost:3000/ == localhost:3000
-// 해당 경로로 요청이 들어왔을 때 호출될 함수.
-// 두 인자값(arguments)을 받음 : request(req), response(res)
+/*
+콘솔에 출력
+console.log(`현재 파일명 : ${__filename}`);
+console.log(`index.html의 파일 경로: ${__dirname}`);
+root url : localhost:3000/ == localhost:3000
+해당 경로로 요청이 들어왔을 때 호출될 함수.
+두 인자값(arguments)을 받음 : request(req), response(res)
+- root url
+*/
 app.get("/", (req, res) => {
-  // root url, 즉 메인 페이지로 접속했을 때 papago의 메인 페이지가 나와야 함
-  // public/~
-
   res.sendFile(__dirname, "index.html");
 });
 
-// detectLangs 경로로 요청했을 때
+/*
+detectLangs 경로로 요청했을 때
+'안녕'이라는 텍스트를 받아야 함
+*/
 app.post("/detectLangs", (req, res) => {
-  // '안녕'이라는 텍스트를 받아야 함
-
   // 알아서 파싱 해줌
   console.log(req.body);
   console.log(typeof req.body); // object?
 
   const { text: query, targetLanguage } = req.body;
-  // console.log(query);
-  // console.log(targetLanguage);
 
   const url = "https://openapi.naver.com/v1/papago/detectLangs";
   const options = {
@@ -96,7 +98,6 @@ app.get("/translate", (req, res) => {
     }
   });
 });
-
 
 
 // 일반적으로 마지막에 작성
